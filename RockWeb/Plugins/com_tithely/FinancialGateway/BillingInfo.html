@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title></title>
+</head>
+<body>
+    <form id="Step2Form" name="Step2Form" method="post" action="">
+        <input type="text" id="email" name="email" value="" class="" />Email<br />
+        <input type="text" id="amount" name="amount" value="" class="" />Amount<br />
+        <input type="text" id="term" name="term" value="" class="" />Term<br />
+        <input type="text" id="account_id" name="account_id" value="" class="" />Account ID<br />
+        <input type="text" id="unix_start_date" name="unix_start_date" value="" class="" />Unix Start Date<br />
+        <input type="text" id="cover_fees" name="cover_fees" value="false" class="" />Cover Fees<br />
+        <input type="text" id="trigger_confirmation" name="trigger_confirmation" value="true" class="" />Trigger Confirmation<br />
+
+        <input type="text" id="bill_to_forename" name="bill_to_forename" value="" class="js-cc-first-name" />First Name<br />
+        <input type="text" id="bill_to_surname" name="bill_to_surname" value="" class="js-cc-last-name" />Last Name<br />
+        <input type="text" id="bill_to_company_name" name="bill_to_company_name" value="" class="js-cc-full-name" />Full Name<br />
+        <br />
+        <input type="text" id="bill_to_address_line1" name="bill_to_address_line1" value="" class="js-billing-address1" />Address 1<br />
+        <input type="text" id="bill_to_address_city" name="bill_to_address_city" value="" class="js-billing-city" />City<br />
+        <input type="text" id="bill_to_address_state" name="bill_to_address_state" value="" class="js-billing-state" />State<br />
+        <input type="text" id="bill_to_address_country" name="bill_to_address_country" value="" class="js-billing-country" />Country<br />
+        <input type="text" id="bill_to_address_postal_code" name="bill_to_address_postal_code" value="" class="js-billing-postal" />Postal<br />
+        <br />
+        <input type="text" id="payment_method" name="payment_method" value="" class="js-payment-method" />Payment Method<br />
+        <br />
+        <label>
+            Card
+            <div id="stripe_card"></div>
+        </label>
+        <input type="text" id="card_number" name="card_number" value="" class="js-cc-number" />CC Number<br />
+        <input type="text" id="card_expiry_date" name="card_expiry_date" value="" class="js-cc-expiration" />CC Exp<br />
+        <input type="text" id="card_cvn" name="card_cvn" value="" class="js-cc-cvv" />CVV<br />
+        <input type="text" id="card_type" name="card_type" value="" class="js-cc-type" />CC Type<br />
+        <br />
+        <input type="text" id="echeck_account_number" name="echeck_account_number" value="" class="js-account-number" />Account Number<br />
+        <input type="text" id="echeck_routing_number" name="echeck_routing_number" value="" class="js-routing-number" />Routing Number<br />
+        <input type="text" id="echeck_account_type" name="echeck_account_type" value="" class="js-account-type" />Account Type<br />
+        <input type="text" id="echeck_sec_code" name="echeck_sec_code" value="" class="js-entity-type" />Entity Type<br />
+        <INPUT type='submit'>
+        <br />
+    </form>
+    <script src="https://js.stripe.com/v2/"></script>
+
+    <script>
+        const stripe_key = "pk_test_7oOE0BTJSqrbkyAzyxgPkxmv";
+        Stripe.setPublishableKey(stripe_key);
+
+        // function to return payment token to main interface
+        function stripeResponseHandler(status, response) {
+            if (!response.error) {
+                //alert("Token: " + response.id);
+                // Get the token along with other info needed to make the charge
+                // and redirect the iframe. This will trigger an event handler
+                // in the Rock Transaction Block and do a postback with the querystring
+                // Note: querystring MUST start with "token-id=" to correctly trigger the event handler
+                let querystring = "?token-id=" + response.id;
+                querystring += "&first_name=" + document.querySelector('#bill_to_forename').value;
+                querystring += "&last_name=" + document.querySelector('#bill_to_surname').value;
+                querystring += "&amount=" + document.querySelector('#amount').value;
+                querystring += "&email=" + document.querySelector('#email').value;
+                querystring += "&card_expiry_date=" + document.querySelector('#card_expiry_date').value;
+                querystring += "&account_id=" + document.querySelector('#account_id').value;
+                querystring += "&cover_fees=" + document.querySelector('#cover_fees').value;
+                querystring += "&trigger_confirmation=" + document.querySelector("#trigger_confirmation").value;
+                querystring += "&term=" + document.querySelector('#term').value;
+                querystring += "&unix_start_date=" + document.querySelector('#unix_start_date').value;
+          
+                window.frameElement.src = window.location + querystring;
+            }
+            else {
+                console.warn(response.error.message);
+                // even though there's no token-id we have to have it as the first param for the
+                // event handler to pick up on this and fire a postback
+                window.frameElement.src = window.location + "?token-id=&stripe_error_msg=" + response.error.message;
+            }
+        }
+        // amount and email, first_name and last_name and a few other values are passed in this way because
+        // the block doesn't copy them into the form and we don't want to alter  the  block code
+        function step2FormSubmit(amount, email, first_name, last_name, account_id, pm_id, cover_fees, trigger_confirmation, term, unix_start_date) {
+            // add a few values to the form
+            document.querySelector('#amount').value = amount;
+            document.querySelector('#email').value = email;
+            document.querySelector('#bill_to_surname').value = first_name;
+            document.querySelector('#bill_to_forename').value = last_name;
+            document.querySelector('#account_id').value = account_id;
+            document.querySelector('#cover_fees').value = cover_fees;
+            document.querySelector('#trigger_confirmation').value = trigger_confirmation;
+            document.querySelector('#unix_start_date').value = unix_start_date;
+            document.querySelector('#term').value = term;
+
+            // add validation to any form values here, like valid payment #'s
+            var ccNumber = document.querySelector('#card_number').value;
+            var achNumber = document.querySelector('#echeck_account_number').value;
+
+            // no need to submit the form anywhere, we'll tokenize and return
+
+            var paymentObject;
+            if (ccNumber) {
+                paymentObject = {
+                    number: document.querySelector('#card_number').value,
+                    exp_month: document.querySelector('#card_expiry_date').value.substring(0, 2),
+                    exp_year: document.querySelector('#card_expiry_date').value.substring(2, 4),
+                    cvc: document.querySelector('#card_cvn').value,
+                    address_line1: document.querySelector('#bill_to_address_line1').value,
+                    address_city: document.querySelector('#bill_to_address_city').value,
+                    address_state: document.querySelector('#bill_to_address_state').value,
+                    address_country: document.querySelector('#bill_to_address_country').value,
+                    address_zip: document.querySelector('#bill_to_address_postal_code').value
+                };
+
+                Stripe.card.createToken(
+                    paymentObject,
+                    stripeResponseHandler);
+            }
+            else if (achNumber) {
+                var paymentType = "company";
+                var paymentName = document.querySelector('#bill_to_company_name').value
+
+                if (paymentName === "") {
+                    paymentName = document.querySelector('#bill_to_forename').value + document.querySelector('#bill_to_surname').value;
+                    paymentType = "individual";
+                }
+
+                paymentObject = {
+                    country: 'US',
+                    currency: 'USD',
+                    routing_number: document.querySelector('#echeck_routing_number').value,
+                    account_number: document.querySelector('#echeck_account_number').value,
+                    account_holder_name: paymentName,
+                    account_holder_type: paymentType
+                };
+
+                Stripe.bankAccount.createToken(
+                    paymentObject,
+                    stripeResponseHandler);
+            } else if (pm_id) {
+                // Note: querystring MUST start with "token-id=" to correctly trigger the event handler
+                // In this branch we actualy have a payment method id, not a token id, but we still need to pass it in with a null value
+                // to trigger the code in the event handler
+                let querystring = "?token-id=";
+                querystring += "&pm_id=" + pm_id;
+                querystring += "&amount=" + amount;
+                querystring += "&cover_fees=" + cover_fees;
+                querystring += "&trigger_confirmation=" + trigger_confirmation;
+                querystring += "&account_id=" + account_id;
+                querystring += "&term=" + document.querySelector('#term').value;
+                querystring += "&unix_start_date=" + document.querySelector('#unix_start_date').value;
+
+                window.frameElement.src = window.location + querystring;
+            } else {
+                console.log('No cc/account number or payment info found in step2form submit handler');
+                return false;
+            }
+        };
+
+    </script>
+
+</body>
+</html>
