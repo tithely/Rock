@@ -4,6 +4,10 @@ Currently, the Tithely Financial Gateway needs to be used in conjunction with cu
 
 For now, these blocks need to be kept in sync with any upstream changes to the blocks as Rock iterates.
 
+## com.tithely.TithelyFinancialGateway Requirement
+
+In order for these custom blocks to function, you'll need to pull in the `.dll` file from the [`rfgp-library`](https://github.com/tithely/rfgp-library) repo. To do this locally, right click on the RockWeb project in the Solution Explorer. Select Add and then Reference. From here, click Browse at the bottom of the window and select the `com.tithely.TithelyFinancialGateway.dll` from the `rfgp-library` project on your system. For example, my path is `C:\Users\Max\Code\rfgp-library\com.tithely.TithelyFinancialGateway\bin\Debug\net4.7.2\com.tithely.TithelyFinancialGateway.dll`. Then click Okay and rebuild the solution. RockWeb should launch without issue.
+
 ## Finance - Tithely Transaction Entry
 
 This block as a new checkbox available called Cover Fees which users can select. It will charge them extra to cover the processing fees of the transaction, and update the Covered Fees attribute for Transaction and ScheduledTransaction entities in Rock with the selection.
