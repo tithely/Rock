@@ -1,5 +1,6 @@
 /bin/*/*.dll
 /bin/*.dll
+/bin/*.dll*
 !/bin/roslyn/*.dll
 !/bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 !/bin/Rock.Common.Mobile.dll
