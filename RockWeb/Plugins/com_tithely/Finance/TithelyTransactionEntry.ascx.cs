@@ -51,26 +51,19 @@ namespace RockWeb.Blocks.Finance
 
     #region Default Category
 
-    [FinancialGatewayField( "Credit Card Gateway",
-        Key = AttributeKey.CCGateway,
-        Description = "The payment gateway to use for Credit Card transactions.",
-        IsRequired = false,
+    [FinancialGatewayField( "Financial Gateway",
+        Key = AttributeKey.Gateway,
+        Description = "The payment gateway to use for Credit Card and ACH transactions.",
+        IsRequired = true,
         DefaultValue = "",
         Order = 0 )]
-
-    [FinancialGatewayField( "ACH Gateway",
-        Key = AttributeKey.ACHGateway,
-        Description = "The payment gateway to use for ACH (bank account) transactions.",
-        IsRequired = false,
-        DefaultValue = "",
-        Order = 1 )]
 
     [TextField( "Batch Name Prefix",
         Key = AttributeKey.BatchNamePrefix,
         Description = "The batch prefix name to use when creating a new batch.",
         IsRequired = false,
         DefaultValue = "Online Giving",
-        Order = 2 )]
+        Order = 1 )]
 
     [DefinedValueField( "Source",
         Key = AttributeKey.Source,
@@ -79,7 +72,7 @@ namespace RockWeb.Blocks.Finance
         IsRequired = false,
         AllowMultiple = false,
         DefaultValue = Rock.SystemGuid.DefinedValue.FINANCIAL_SOURCE_TYPE_WEBSITE,
-        Order = 3 )]
+        Order = 2 )]
 
     [BooleanField( "Impersonation",
         Key = AttributeKey.Impersonation,
@@ -87,7 +80,7 @@ namespace RockWeb.Blocks.Finance
         TrueText = "Allow (only use on an internal page used by staff)",
         FalseText = "Don't Allow",
         DefaultBooleanValue = false,
-        Order = 4 )]
+        Order = 3 )]
 
     [CustomDropdownListField( "Layout Style",
         Key = AttributeKey.LayoutStyle,
@@ -95,7 +88,7 @@ namespace RockWeb.Blocks.Finance
         ListSource = "Vertical,Fluid",
         IsRequired = false,
         DefaultValue = "Vertical",
-        Order = 5 )]
+        Order = 4 )]
 
     [CodeEditorField( "Account Header Template",
         Key = AttributeKey.AccountHeaderTemplate,
@@ -105,14 +98,14 @@ namespace RockWeb.Blocks.Finance
         EditorHeight = 50,
         IsRequired = true,
         DefaultValue = "{{ Account.PublicName }}",
-        Order = 6 )]
+        Order = 5 )]
 
     [AccountsField( "Accounts",
         Key = AttributeKey.Accounts,
         Description = "The accounts to display.  By default all active accounts with a Public Name will be displayed.",
         IsRequired = false,
         DefaultValue = "",
-        Order = 7 )]
+        Order = 6 )]
 
     [BooleanField( "Additional Accounts",
         Key = AttributeKey.AdditionalAccounts,
@@ -120,7 +113,7 @@ namespace RockWeb.Blocks.Finance
         TrueText = "Display option for selecting additional accounts",
         FalseText = "Don't display option",
         DefaultBooleanValue = true,
-        Order = 8 )]
+        Order = 7 )]
 
     [BooleanField( "Scheduled Transactions",
         Key = AttributeKey.AllowScheduled,
@@ -128,19 +121,19 @@ namespace RockWeb.Blocks.Finance
         TrueText = "Allow",
         FalseText = "Don't Allow",
         DefaultBooleanValue = true,
-        Order = 9 )]
+        Order = 8 )]
 
     [BooleanField( "Prompt for Phone",
         Key = AttributeKey.DisplayPhone,
         Description = "Should the user be prompted for their phone number?",
         DefaultBooleanValue = false,
-        Order = 10 )]
+        Order = 9 )]
 
     [BooleanField( "Prompt for Email",
         Key = AttributeKey.DisplayEmail,
         Description = "Should the user be prompted for their email address?",
         DefaultBooleanValue = true,
-        Order = 11 )]
+        Order = 10 )]
 
     [GroupLocationTypeField( "Address Type",
         Key = AttributeKey.AddressType,
@@ -148,7 +141,7 @@ namespace RockWeb.Blocks.Finance
         GroupTypeGuid = Rock.SystemGuid.GroupType.GROUPTYPE_FAMILY,
         IsRequired = false,
         DefaultValue = Rock.SystemGuid.DefinedValue.GROUP_LOCATION_TYPE_HOME,
-        Order = 12 )]
+        Order = 11 )]
 
     [DefinedValueField( "Connection Status",
         Key = AttributeKey.ConnectionStatus,
@@ -157,7 +150,7 @@ namespace RockWeb.Blocks.Finance
         IsRequired = true,
         AllowMultiple = false,
         DefaultValue = Rock.SystemGuid.DefinedValue.PERSON_CONNECTION_STATUS_PROSPECT,
-        Order = 13 )]
+        Order = 12 )]
 
     [DefinedValueField( "Record Status",
         Key = AttributeKey.RecordStatus,
@@ -166,32 +159,32 @@ namespace RockWeb.Blocks.Finance
         IsRequired = true,
         AllowMultiple = false,
         DefaultValue = Rock.SystemGuid.DefinedValue.PERSON_RECORD_STATUS_PENDING,
-        Order = 14 )]
+        Order = 13 )]
 
     [BooleanField( "Enable Comment Entry",
         Key = AttributeKey.EnableCommentEntry,
         Description = "Allows the guest to enter the value that's put into the comment field (will be appended to the 'Payment Comment Template' setting)",
         DefaultBooleanValue = false,
-        Order = 15 )]
+        Order = 14 )]
 
     [TextField( "Comment Entry Label",
         Key = AttributeKey.CommentEntryLabel,
         Description = "The label to use on the comment edit field (e.g. Trip Name to give to a specific trip).",
         IsRequired = false,
         DefaultValue = "Comment",
-        Order = 16 )]
+        Order = 15 )]
 
     [BooleanField( "Enable Business Giving",
         Key = AttributeKey.EnableBusinessGiving,
         Description = "Should the option to give as a business be displayed?",
         DefaultBooleanValue = true,
-        Order = 17 )]
+        Order = 16 )]
 
     [BooleanField( "Enable Anonymous Giving",
         Key = AttributeKey.EnableAnonymousGiving,
         Description = "Should the option to give anonymously be displayed. Giving anonymously will display the transaction as 'Anonymous' in places where it is shown publicly, for example, on a list of fundraising contributors.",
         DefaultBooleanValue = false,
-        Order = 18 )]
+        Order = 17 )]
 
     #endregion Default Category
 
@@ -452,8 +445,7 @@ namespace RockWeb.Blocks.Finance
         private static class AttributeKey
         {
             // Default Category
-            public const string CCGateway = "CCGateway";
-            public const string ACHGateway = "ACHGateway";
+            public const string Gateway = "Gateway";
             public const string BatchNamePrefix = "BatchNamePrefix";
             public const string Source = "Source";
             public const string Impersonation = "Impersonation";
@@ -564,12 +556,8 @@ namespace RockWeb.Blocks.Finance
         #region Fields
 
         private Person _targetPerson = null;
-        private FinancialGateway _ccGateway;
-        private GatewayComponent _ccGatewayComponent = null;
-        private FinancialGateway _achGateway;
-        private GatewayComponent _achGatewayComponent = null;
-        private bool _using3StepGateway = false;
-        private bool _gatewaysIncompatible = false;
+        private FinancialGateway _gateway;
+        private GatewayComponent _gatewayComponent = null;
         private string _ccSavedAccountFreqSupported = "both";
         private string _achSavedAccountFreqSupported = "both";
 
@@ -872,47 +860,7 @@ namespace RockWeb.Blocks.Finance
                 }
             }
 
-            if ( _ccGateway == null && _achGateway == null )
-            {
-                SetPage( 0 );
-                ShowMessage( NotificationBoxType.Danger, "Configuration Error", "Please check the configuration of this block and make sure a valid Credit Card and/or ACH Financial Gateway has been selected." );
-                return;
-            }
-
-            if ( _gatewaysIncompatible )
-            {
-                SetPage( 0 );
-                ShowMessage( NotificationBoxType.Danger, "Configuration Error", "The Credit Card and ACH Gateways are incompatible. If using a three-step gateway, both the Credit Card and ACH Gateways need to be the same." );
-                return;
-            }
-
-            var ccHostedGatewayComponent = _ccGatewayComponent as IHostedGatewayComponent;
-            var achHostedGatewayComponent = _achGatewayComponent as IHostedGatewayComponent;
-            bool gatewaySupportsUnhostedPayment = true;
-
-            if ( ccHostedGatewayComponent != null && !ccHostedGatewayComponent.GetSupportedHostedGatewayModes( _ccGateway ).Contains( HostedGatewayMode.Unhosted ) )
-            {
-                gatewaySupportsUnhostedPayment = false;
-            }
-
-            if ( achHostedGatewayComponent != null && !achHostedGatewayComponent.GetSupportedHostedGatewayModes( _achGateway ).Contains( HostedGatewayMode.Unhosted ) )
-            {
-                gatewaySupportsUnhostedPayment = false;
-            }
-
-            if ( !gatewaySupportsUnhostedPayment )
-            {
-                SetPage( 0 );
-                ShowMessage( NotificationBoxType.Danger, "Configuration Error", "Unsupported Gateway. This block only supports Gateways that have a un-hosted payment interface." );
-                return;
-            }
-
-            var testGatewayGuid = Rock.SystemGuid.EntityType.FINANCIAL_GATEWAY_TEST_GATEWAY.AsGuid();
-            if ( ( _ccGatewayComponent != null && _ccGatewayComponent.TypeGuid == testGatewayGuid ) ||
-                ( _achGatewayComponent != null && _achGatewayComponent.TypeGuid == testGatewayGuid ) )
-            {
-                ShowMessage( NotificationBoxType.Warning, "Testing", "You are using the Test Financial Gateway. No actual amounts will be charged to your card or bank account." );
-            }
+            var hostedGatewayComponent = _gatewayComponent as IHostedGatewayComponent;
 
             // Check if this is a transfer and that the person is the authorized person on the transaction
             if ( !string.IsNullOrWhiteSpace( PageParameter( PageParameterKey.Transfer ) ) && !string.IsNullOrWhiteSpace( PageParameter( PageParameterKey.ScheduledTransactionGuid ) ) )
@@ -1121,37 +1069,24 @@ namespace RockWeb.Blocks.Finance
             string errorMessage = string.Empty;
             if ( ProcessPaymentInfo( out errorMessage ) )
             {
-                if ( _using3StepGateway )
-                {
-                    if ( ProcessStep1( out errorMessage ) )
-                    {
-                        if ( this.PartialPostbacksAllowed )
-                        {
-                            this.AddHistory( "GivingDetail", "1", null );
-                        }
-
-                        if ( rblSavedAccount.Items.Count > 0 && ( rblSavedAccount.SelectedValueAsId() ?? 0 ) > 0 )
-                        {
-                            hfStep2AutoSubmit.Value = "true";
-                        }
-
-                        SetPage( 2 );
-                        lbStep2Return.Focus();
-                    }
-                    else
-                    {
-                        ShowMessage( NotificationBoxType.Validation, "Before we finish...", errorMessage );
-                    }
-                }
-                else
+                if ( ProcessStep1( out errorMessage ) )
                 {
                     if ( this.PartialPostbacksAllowed )
                     {
                         this.AddHistory( "GivingDetail", "1", null );
                     }
 
-                    SetPage( 3 );
-                    pnlConfirmation.Focus();
+                    if ( rblSavedAccount.Items.Count > 0 && ( rblSavedAccount.SelectedValueAsId() ?? 0 ) > 0 )
+                    {
+                        hfStep2AutoSubmit.Value = "true";
+                    }
+
+                    SetPage( 2 );
+                    lbStep2Return.Focus();
+                }
+                else
+                {
+                    ShowMessage( NotificationBoxType.Validation, "Before we finish...", errorMessage );
                 }
             }
             else
@@ -1239,40 +1174,20 @@ namespace RockWeb.Blocks.Finance
         protected void btnConfirmationNext_Click( object sender, EventArgs e )
         {
             string errorMessage = string.Empty;
-            if ( _using3StepGateway )
+            string resultQueryString = hfStep2ReturnQueryString.Value;
+            if ( ProcessStep3( resultQueryString, out errorMessage ) )
             {
-                string resultQueryString = hfStep2ReturnQueryString.Value;
-                if ( ProcessStep3( resultQueryString, out errorMessage ) )
+                if ( this.PartialPostbacksAllowed )
                 {
-                    if ( this.PartialPostbacksAllowed )
-                    {
-                        this.AddHistory( "GivingDetail", "3", null );
-                    }
+                    this.AddHistory( "GivingDetail", "3", null );
+                }
 
-                    SetPage( 4 );
-                    pnlSuccess.Focus();
-                }
-                else
-                {
-                    ShowMessage( NotificationBoxType.Danger, "Payment Error", errorMessage );
-                }
+                SetPage( 4 );
+                pnlSuccess.Focus();
             }
             else
             {
-                if ( ProcessConfirmation( out errorMessage ) )
-                {
-                    if ( this.PartialPostbacksAllowed )
-                    {
-                        this.AddHistory( "GivingDetail", "2", null );
-                    }
-
-                    SetPage( 4 );
-                    pnlSuccess.Focus();
-                }
-                else
-                {
-                    ShowMessage( NotificationBoxType.Danger, "Payment Error", errorMessage );
-                }
+                ShowMessage( NotificationBoxType.Danger, "Payment Error", errorMessage );
             }
         }
 
@@ -1357,132 +1272,120 @@ namespace RockWeb.Blocks.Finance
                 if ( !string.IsNullOrWhiteSpace( txtSaveAccount.Text ) )
                 {
                     bool isACHTxn = hfPaymentTab.Value == "ACH";
-                    var financialGateway = isACHTxn ? _achGateway : _ccGateway;
-                    var gateway = isACHTxn ? _achGatewayComponent : _ccGatewayComponent;
 
-                    if ( gateway != null )
+                    var ccCurrencyType = DefinedValueCache.Get( new Guid( Rock.SystemGuid.DefinedValue.CURRENCY_TYPE_CREDIT_CARD ) );
+                    var achCurrencyType = DefinedValueCache.Get( new Guid( Rock.SystemGuid.DefinedValue.CURRENCY_TYPE_ACH ) );
+
+                    string errorMessage = string.Empty;
+
+                    var person = GetPerson( false );
+                    string referenceNumber = string.Empty;
+                    FinancialPaymentDetail paymentDetail = null;
+                    int? currencyTypeValueId = isACHTxn ? achCurrencyType.Id : ccCurrencyType.Id;
+
+                    if ( !ScheduleId.HasValue )
                     {
-                        var ccCurrencyType = DefinedValueCache.Get( new Guid( Rock.SystemGuid.DefinedValue.CURRENCY_TYPE_CREDIT_CARD ) );
-                        var achCurrencyType = DefinedValueCache.Get( new Guid( Rock.SystemGuid.DefinedValue.CURRENCY_TYPE_ACH ) );
-
-                        string errorMessage = string.Empty;
-
-                        var person = GetPerson( false );
-                        string referenceNumber = string.Empty;
-                        FinancialPaymentDetail paymentDetail = null;
-                        int? currencyTypeValueId = isACHTxn ? achCurrencyType.Id : ccCurrencyType.Id;
-
-                        if ( !ScheduleId.HasValue )
+                        var transaction = new FinancialTransactionService( rockContext ).GetByTransactionCode(_gateway.Id, TransactionCode );
+                        if ( transaction != null && transaction.AuthorizedPersonAlias != null )
                         {
-                            var transaction = new FinancialTransactionService( rockContext ).GetByTransactionCode( ( financialGateway != null ? financialGateway.Id : ( int? ) null ), TransactionCode );
-                            if ( transaction != null && transaction.AuthorizedPersonAlias != null )
+                            if ( transaction.FinancialGateway != null )
                             {
-                                if ( transaction.FinancialGateway != null )
-                                {
-                                    transaction.FinancialGateway.LoadAttributes( rockContext );
-                                }
-
-                                referenceNumber = gateway.GetReferenceNumber( transaction, out errorMessage );
-                                paymentDetail = transaction.FinancialPaymentDetail;
+                                transaction.FinancialGateway.LoadAttributes( rockContext );
                             }
+
+                            referenceNumber = _gatewayComponent.GetReferenceNumber( transaction, out errorMessage );
+                            paymentDetail = transaction.FinancialPaymentDetail;
                         }
-                        else
+                    }
+                    else
+                    {
+                        var scheduledTransaction = new FinancialScheduledTransactionService( rockContext ).Get( ScheduleId.Value );
+                        if ( scheduledTransaction != null )
                         {
-                            var scheduledTransaction = new FinancialScheduledTransactionService( rockContext ).Get( ScheduleId.Value );
-                            if ( scheduledTransaction != null )
+                            if ( scheduledTransaction.FinancialGateway != null )
                             {
-                                if ( scheduledTransaction.FinancialGateway != null )
-                                {
-                                    scheduledTransaction.FinancialGateway.LoadAttributes( rockContext );
-                                }
-
-                                referenceNumber = gateway.GetReferenceNumber( scheduledTransaction, out errorMessage );
-                                paymentDetail = scheduledTransaction.FinancialPaymentDetail;
+                                scheduledTransaction.FinancialGateway.LoadAttributes( rockContext );
                             }
-                        }
 
-                        if ( person != null && paymentDetail != null )
+                            referenceNumber = _gatewayComponent.GetReferenceNumber( scheduledTransaction, out errorMessage );
+                            paymentDetail = scheduledTransaction.FinancialPaymentDetail;
+                        }
+                    }
+
+                    if ( person != null && paymentDetail != null )
+                    {
+                        if ( phCreateLogin.Visible )
                         {
-                            if ( phCreateLogin.Visible )
-                            {
-                                var user = UserLoginService.Create(
-                                    rockContext,
-                                    person,
-                                    Rock.Model.AuthenticationServiceType.Internal,
-                                    EntityTypeCache.Get( Rock.SystemGuid.EntityType.AUTHENTICATION_DATABASE.AsGuid() ).Id,
-                                    txtUserName.Text,
-                                    txtPassword.Text,
-                                    false );
+                            var user = UserLoginService.Create(
+                                rockContext,
+                                person,
+                                Rock.Model.AuthenticationServiceType.Internal,
+                                EntityTypeCache.Get( Rock.SystemGuid.EntityType.AUTHENTICATION_DATABASE.AsGuid() ).Id,
+                                txtUserName.Text,
+                                txtPassword.Text,
+                                false );
 
-                                var mergeFields = Rock.Lava.LavaHelper.GetCommonMergeFields( this.RockPage, this.CurrentPerson );
-                                mergeFields.Add( "ConfirmAccountUrl", RootPath + "ConfirmAccount" );
-                                mergeFields.Add( "Person", person );
-                                mergeFields.Add( "User", user );
+                            var mergeFields = Rock.Lava.LavaHelper.GetCommonMergeFields( this.RockPage, this.CurrentPerson );
+                            mergeFields.Add( "ConfirmAccountUrl", RootPath + "ConfirmAccount" );
+                            mergeFields.Add( "Person", person );
+                            mergeFields.Add( "User", user );
 
-                                var emailMessage = new RockEmailMessage( GetAttributeValue( AttributeKey.ConfirmAccountTemplate ).AsGuid() );
-                                emailMessage.AddRecipient( new RockEmailMessageRecipient( person, mergeFields ) );
-                                emailMessage.AppRoot = ResolveRockUrl( "~/" );
-                                emailMessage.ThemeRoot = ResolveRockUrl( "~~/" );
-                                emailMessage.CreateCommunicationRecord = false;
-                                emailMessage.Send();
-                            }
-
-                            if ( errorMessage.Any() )
-                            {
-                                nbSaveAccount.Title = "Invalid Transaction";
-                                nbSaveAccount.Text = "Sorry, the account information cannot be saved. " + errorMessage;
-                                nbSaveAccount.NotificationBoxType = NotificationBoxType.Danger;
-                                nbSaveAccount.Visible = true;
-                            }
-                            else
-                            {
-                                var savedAccount = new FinancialPersonSavedAccount();
-                                savedAccount.PersonAliasId = person.PrimaryAliasId;
-                                savedAccount.ReferenceNumber = referenceNumber;
-                                savedAccount.Name = txtSaveAccount.Text;
-                                savedAccount.TransactionCode = TransactionCode;
-                                savedAccount.GatewayPersonIdentifier = paymentDetail.GatewayPersonIdentifier;
-                                savedAccount.FinancialGatewayId = financialGateway.Id;
-                                savedAccount.FinancialPaymentDetail = new FinancialPaymentDetail();
-                                savedAccount.FinancialPaymentDetail.AccountNumberMasked = paymentDetail.AccountNumberMasked;
-                                savedAccount.FinancialPaymentDetail.CurrencyTypeValueId = paymentDetail.CurrencyTypeValueId;
-                                savedAccount.FinancialPaymentDetail.CreditCardTypeValueId = paymentDetail.CreditCardTypeValueId;
-                                savedAccount.FinancialPaymentDetail.NameOnCard = paymentDetail.NameOnCard;
-                                savedAccount.FinancialPaymentDetail.ExpirationMonth = paymentDetail.ExpirationMonth;
-                                savedAccount.FinancialPaymentDetail.ExpirationYear = paymentDetail.ExpirationYear;
-                                savedAccount.FinancialPaymentDetail.BillingLocationId = paymentDetail.BillingLocationId;
-
-                                var savedAccountService = new FinancialPersonSavedAccountService( rockContext );
-                                savedAccountService.Add( savedAccount );
-                                rockContext.SaveChanges();
-
-                                // If we created a new saved account, update the transaction to say it that is used this saved account.
-                                paymentDetail.FinancialPersonSavedAccountId = savedAccount.Id;
-                                rockContext.SaveChanges();
-
-                                cbSaveAccount.Visible = false;
-                                txtSaveAccount.Visible = false;
-                                phCreateLogin.Visible = false;
-                                divSaveActions.Visible = false;
-
-                                nbSaveAccount.Title = "Success";
-                                nbSaveAccount.Text = "The account has been saved for future use";
-                                nbSaveAccount.NotificationBoxType = NotificationBoxType.Success;
-                                nbSaveAccount.Visible = true;
-                            }
+                            var emailMessage = new RockEmailMessage( GetAttributeValue( AttributeKey.ConfirmAccountTemplate ).AsGuid() );
+                            emailMessage.AddRecipient( new RockEmailMessageRecipient( person, mergeFields ) );
+                            emailMessage.AppRoot = ResolveRockUrl( "~/" );
+                            emailMessage.ThemeRoot = ResolveRockUrl( "~~/" );
+                            emailMessage.CreateCommunicationRecord = false;
+                            emailMessage.Send();
                         }
-                        else
+
+                        if ( errorMessage.Any() )
                         {
                             nbSaveAccount.Title = "Invalid Transaction";
-                            nbSaveAccount.Text = "Sorry, the account information cannot be saved as there's not a valid transaction code to reference.";
+                            nbSaveAccount.Text = "Sorry, the account information cannot be saved. " + errorMessage;
                             nbSaveAccount.NotificationBoxType = NotificationBoxType.Danger;
+                            nbSaveAccount.Visible = true;
+                        }
+                        else
+                        {
+                            var savedAccount = new FinancialPersonSavedAccount();
+                            savedAccount.PersonAliasId = person.PrimaryAliasId;
+                            savedAccount.ReferenceNumber = referenceNumber;
+                            savedAccount.Name = txtSaveAccount.Text;
+                            savedAccount.TransactionCode = TransactionCode;
+                            savedAccount.GatewayPersonIdentifier = paymentDetail.GatewayPersonIdentifier;
+                            savedAccount.FinancialGatewayId = _gateway.Id;
+                            savedAccount.FinancialPaymentDetail = new FinancialPaymentDetail();
+                            savedAccount.FinancialPaymentDetail.AccountNumberMasked = paymentDetail.AccountNumberMasked;
+                            savedAccount.FinancialPaymentDetail.CurrencyTypeValueId = paymentDetail.CurrencyTypeValueId;
+                            savedAccount.FinancialPaymentDetail.CreditCardTypeValueId = paymentDetail.CreditCardTypeValueId;
+                            savedAccount.FinancialPaymentDetail.NameOnCard = paymentDetail.NameOnCard;
+                            savedAccount.FinancialPaymentDetail.ExpirationMonth = paymentDetail.ExpirationMonth;
+                            savedAccount.FinancialPaymentDetail.ExpirationYear = paymentDetail.ExpirationYear;
+                            savedAccount.FinancialPaymentDetail.BillingLocationId = paymentDetail.BillingLocationId;
+
+                            var savedAccountService = new FinancialPersonSavedAccountService( rockContext );
+                            savedAccountService.Add( savedAccount );
+                            rockContext.SaveChanges();
+
+                            // If we created a new saved account, update the transaction to say it that is used this saved account.
+                            paymentDetail.FinancialPersonSavedAccountId = savedAccount.Id;
+                            rockContext.SaveChanges();
+
+                            cbSaveAccount.Visible = false;
+                            txtSaveAccount.Visible = false;
+                            phCreateLogin.Visible = false;
+                            divSaveActions.Visible = false;
+
+                            nbSaveAccount.Title = "Success";
+                            nbSaveAccount.Text = "The account has been saved for future use";
+                            nbSaveAccount.NotificationBoxType = NotificationBoxType.Success;
                             nbSaveAccount.Visible = true;
                         }
                     }
                     else
                     {
-                        nbSaveAccount.Title = "Invalid Gateway";
-                        nbSaveAccount.Text = "Sorry, the financial gateway information for this type of transaction is not valid.";
+                        nbSaveAccount.Title = "Invalid Transaction";
+                        nbSaveAccount.Text = "Sorry, the account information cannot be saved as there's not a valid transaction code to reference.";
                         nbSaveAccount.NotificationBoxType = NotificationBoxType.Danger;
                         nbSaveAccount.Visible = true;
                     }
@@ -1573,37 +1476,19 @@ namespace RockWeb.Blocks.Finance
 
         private void SetGatewayOptions( RockContext rockContext )
         {
-            _ccGateway = GetGateway( rockContext, AttributeKey.CCGateway );
-            _ccGatewayComponent = GetGatewayComponent( rockContext, _ccGateway );
-            bool ccEnabled = _ccGatewayComponent != null;
+            _gateway = GetGateway( rockContext, AttributeKey.Gateway );
+            _gatewayComponent = GetGatewayComponent( rockContext, _gateway );
 
-            _achGateway = GetGateway( rockContext, AttributeKey.ACHGateway );
-            _achGatewayComponent = GetGatewayComponent( rockContext, _achGateway );
-            bool achEnabled = _achGatewayComponent != null;
+            bool ccEnabled = true;
+            bool achEnabled = true;
 
-            if ( _using3StepGateway && _ccGateway != null && _achGateway != null && _ccGateway.Id != _achGateway.Id )
-            {
-                _gatewaysIncompatible = true;
-            }
-
-            _ccSavedAccountFreqSupported = GetSavedAcccountFreqSupported( _ccGatewayComponent );
-            _achSavedAccountFreqSupported = GetSavedAcccountFreqSupported( _achGatewayComponent );
+            _ccSavedAccountFreqSupported = GetSavedAcccountFreqSupported( _gatewayComponent );
+            _achSavedAccountFreqSupported = GetSavedAcccountFreqSupported( _gatewayComponent );
 
             bool allowScheduled = GetAttributeValue( AttributeKey.AllowScheduled ).AsBoolean();
             if ( allowScheduled && ( ccEnabled || achEnabled ) )
             {
-                var supportedFrequencies = ccEnabled ? _ccGatewayComponent.SupportedPaymentSchedules : _achGatewayComponent.SupportedPaymentSchedules;
-
-                // If CC and ACH gateways are both enabled, but different, only allow frequencies supported by both payment gateways (if different)
-                if ( ccEnabled && achEnabled && _ccGatewayComponent.TypeId != _achGatewayComponent.TypeId )
-                {
-                    supportedFrequencies = _ccGatewayComponent.SupportedPaymentSchedules
-                        .Where( c =>
-                            _achGatewayComponent.SupportedPaymentSchedules
-                                .Select( a => a.Id )
-                                .Contains( c.Id ) )
-                        .ToList();
-                }
+                var supportedFrequencies = _gatewayComponent.SupportedPaymentSchedules;
 
                 if ( supportedFrequencies.Any() )
                 {
@@ -1697,7 +1582,6 @@ namespace RockWeb.Blocks.Finance
                     var threeStepGateway = gatewayComponent as IThreeStepGatewayComponent;
                     if ( threeStepGateway != null )
                     {
-                        _using3StepGateway = true;
                         Step2IFrameUrl = ResolveRockUrl( threeStepGateway.Step2FormUrl );
                     }
                 }
@@ -1726,14 +1610,14 @@ namespace RockWeb.Blocks.Finance
                 // Find the saved accounts that are valid for the selected CC gateway
                 var ccSavedAccountIds = new List<int>();
                 var ccCurrencyType = DefinedValueCache.Get( new Guid( Rock.SystemGuid.DefinedValue.CURRENCY_TYPE_CREDIT_CARD ) );
-                if ( _ccGateway != null &&
-                    _ccGatewayComponent != null &&
-                    _ccGatewayComponent.SupportsSavedAccount( !oneTime ) &&
-                    _ccGatewayComponent.SupportsSavedAccount( ccCurrencyType ) )
+                if ( _gateway != null &&
+                    _gatewayComponent != null &&
+                    _gatewayComponent.SupportsSavedAccount( !oneTime ) &&
+                    _gatewayComponent.SupportsSavedAccount( ccCurrencyType ) )
                 {
                     ccSavedAccountIds = savedAccounts
                         .Where( a =>
-                            a.FinancialGatewayId == _ccGateway.Id &&
+                            a.FinancialGatewayId == _gateway.Id &&
                             a.FinancialPaymentDetail != null &&
                             a.FinancialPaymentDetail.CurrencyTypeValueId == ccCurrencyType.Id )
                         .Select( a => a.Id )
@@ -1743,14 +1627,14 @@ namespace RockWeb.Blocks.Finance
                 // Find the saved accounts that are valid for the selected ACH gateway
                 var achSavedAccountIds = new List<int>();
                 var achCurrencyType = DefinedValueCache.Get( new Guid( Rock.SystemGuid.DefinedValue.CURRENCY_TYPE_ACH ) );
-                if ( _achGateway != null &&
-                    _achGatewayComponent != null &&
-                    _achGatewayComponent.SupportsSavedAccount( !oneTime ) &&
-                    _achGatewayComponent.SupportsSavedAccount( achCurrencyType ) )
+                if ( _gateway != null &&
+                    _gatewayComponent != null &&
+                    _gatewayComponent.SupportsSavedAccount( !oneTime ) &&
+                    _gatewayComponent.SupportsSavedAccount( achCurrencyType ) )
                 {
                     achSavedAccountIds = savedAccounts
                         .Where( a =>
-                            a.FinancialGatewayId == _achGateway.Id &&
+                            a.FinancialGatewayId == _gateway.Id &&
                             a.FinancialPaymentDetail != null &&
                             a.FinancialPaymentDetail.CurrencyTypeValueId == achCurrencyType.Id )
                         .Select( a => a.Id )
@@ -1927,8 +1811,8 @@ namespace RockWeb.Blocks.Finance
             txtCommentEntry.Visible = GetAttributeValue( AttributeKey.EnableCommentEntry ).AsBoolean();
 
             // Set the payment method tabs
-            bool ccEnabled = _ccGatewayComponent != null;
-            bool achEnabled = _achGatewayComponent != null;
+            bool ccEnabled = true;
+            bool achEnabled = true;
             divCCPaymentInfo.Visible = ccEnabled;
             divACHPaymentInfo.Visible = achEnabled;
             if ( ccEnabled || achEnabled )
@@ -1941,20 +1825,20 @@ namespace RockWeb.Blocks.Finance
             }
 
             // Determine if and how Name on Card should be displayed
-            txtCardFirstName.Visible = _ccGatewayComponent != null && _ccGatewayComponent.PromptForNameOnCard( _ccGateway ) && _ccGatewayComponent.SplitNameOnCard;
-            txtCardLastName.Visible = _ccGatewayComponent != null && _ccGatewayComponent.PromptForNameOnCard( _ccGateway ) && _ccGatewayComponent.SplitNameOnCard;
-            txtCardName.Visible = _ccGatewayComponent != null && _ccGatewayComponent.PromptForNameOnCard( _ccGateway ) && !_ccGatewayComponent.SplitNameOnCard;
+            txtCardFirstName.Visible = _gatewayComponent.PromptForNameOnCard( _gateway ) && _gatewayComponent.SplitNameOnCard;
+            txtCardLastName.Visible = _gatewayComponent.PromptForNameOnCard( _gateway ) && _gatewayComponent.SplitNameOnCard;
+            txtCardName.Visible = _gatewayComponent.PromptForNameOnCard( _gateway ) && !_gatewayComponent.SplitNameOnCard;
 
             // Set cc expiration min/max
             mypExpiration.MinimumYear = RockDateTime.Now.Year;
             mypExpiration.MaximumYear = mypExpiration.MinimumYear + 15;
 
             // Determine if account name should be displayed for bank account
-            txtAccountName.Visible = _achGatewayComponent != null && _achGatewayComponent.PromptForBankAccountName( _achGateway );
+            txtAccountName.Visible = _gatewayComponent.PromptForBankAccountName( _gateway );
 
             // Determine if billing address should be displayed
-            cbBillingAddress.Visible = _ccGatewayComponent != null && _ccGatewayComponent.PromptForBillingAddress( _ccGateway );
-            divBillingAddress.Visible = _ccGatewayComponent != null && _ccGatewayComponent.PromptForBillingAddress( _ccGateway );
+            cbBillingAddress.Visible = _gatewayComponent.PromptForBillingAddress( _gateway );
+            divBillingAddress.Visible = _gatewayComponent.PromptForBillingAddress( _gateway );
 
             rcbCoverFees.InputAttributes.Add("data-testid", "Cover Fees Checkbox");
         }
@@ -2713,67 +2597,6 @@ namespace RockWeb.Blocks.Finance
                 }
             }
 
-            if ( !_using3StepGateway )
-            {
-                if ( rblSavedAccount.Items.Count <= 0 || ( rblSavedAccount.SelectedValueAsInt() ?? 0 ) <= 0 )
-                {
-                    bool isACHTxn = hfPaymentTab.Value == "ACH";
-                    if ( isACHTxn )
-                    {
-                        // validate ach options
-                        if ( string.IsNullOrWhiteSpace( txtRoutingNumber.Text ) )
-                        {
-                            errorMessages.Add( "Make sure to enter a valid routing number" );
-                        }
-
-                        if ( string.IsNullOrWhiteSpace( txtAccountNumber.Text ) )
-                        {
-                            errorMessages.Add( "Make sure to enter a valid account number" );
-                        }
-                    }
-                    else
-                    {
-                        // validate cc options
-                        if ( _ccGatewayComponent.PromptForNameOnCard( _ccGateway ) )
-                        {
-                            if ( _ccGatewayComponent != null && _ccGatewayComponent.SplitNameOnCard )
-                            {
-                                if ( string.IsNullOrWhiteSpace( txtCardFirstName.Text ) || string.IsNullOrWhiteSpace( txtCardLastName.Text ) )
-                                {
-                                    errorMessages.Add( "Make sure to enter a valid first and last name as it appears on your credit card" );
-                                }
-                            }
-                            else
-                            {
-                                if ( string.IsNullOrWhiteSpace( txtCardName.Text ) )
-                                {
-                                    errorMessages.Add( "Make sure to enter a valid name as it appears on your credit card" );
-                                }
-                            }
-                        }
-
-                        var rgx = new System.Text.RegularExpressions.Regex( @"[^\d]" );
-                        string ccNum = rgx.Replace( txtCreditCard.Text, "" );
-                        if ( string.IsNullOrWhiteSpace( ccNum ) )
-                        {
-                            errorMessages.Add( "Make sure to enter a valid credit card number" );
-                        }
-
-                        var currentMonth = RockDateTime.Today;
-                        currentMonth = new DateTime( currentMonth.Year, currentMonth.Month, 1 );
-                        if ( !mypExpiration.SelectedDate.HasValue || mypExpiration.SelectedDate.Value.CompareTo( currentMonth ) < 0 )
-                        {
-                            errorMessages.Add( "Make sure to enter a valid credit card expiration date" );
-                        }
-
-                        if ( string.IsNullOrWhiteSpace( txtCVV.Text ) )
-                        {
-                            errorMessages.Add( "Make sure to enter a valid credit card security code" );
-                        }
-                    }
-                }
-            }
-
             if ( errorMessages.Any() )
             {
                 errorMessage = errorMessages.AsDelimited( "<br/>" );
@@ -2831,17 +2654,9 @@ namespace RockWeb.Blocks.Finance
 
             tdTotalConfirm.Description = paymentInfo.Amount.FormatAsCurrency();
 
-            if ( !_using3StepGateway )
-            {
-                tdPaymentMethodConfirm.Description = paymentInfo.CurrencyTypeValue.Description;
-
-                tdAccountNumberConfirm.Description = paymentInfo.MaskedNumber;
-                tdAccountNumberConfirm.Visible = !string.IsNullOrWhiteSpace( paymentInfo.MaskedNumber );
-            }
-
             tdWhenConfirm.Description = schedule != null ? schedule.ToString() : "Today";
 
-            btnConfirmationPrev.Visible = !_using3StepGateway;
+            btnConfirmationPrev.Visible = false;
 
             return true;
         }
@@ -2853,17 +2668,7 @@ namespace RockWeb.Blocks.Finance
         /// <returns></returns>
         private bool ProcessStep1( out string errorMessage )
         {
-            var rockContext = new RockContext();
-
-            bool isACHTxn = hfPaymentTab.Value == "ACH";
-            var financialGateway = isACHTxn ? _achGateway : _ccGateway;
-            var gateway = ( isACHTxn ? _achGatewayComponent : _ccGatewayComponent ) as IThreeStepGatewayComponent;
-
-            if ( gateway == null )
-            {
-                errorMessage = "There was a problem creating the payment gateway information";
-                return false;
-            }
+            var gateway = _gatewayComponent as IThreeStepGatewayComponent;
 
             PaymentInfo paymentInfo = GetPaymentInfo();
 
@@ -2898,11 +2703,11 @@ namespace RockWeb.Blocks.Finance
             PaymentSchedule schedule = GetSchedule();
             if ( schedule != null )
             {
-                result = gateway.AddScheduledPaymentStep1( financialGateway, schedule, paymentInfo, out errorMessage );
+                result = gateway.AddScheduledPaymentStep1( _gateway, schedule, paymentInfo, out errorMessage );
             }
             else
             {
-                result = gateway.ChargeStep1( financialGateway, paymentInfo, out errorMessage );
+                result = gateway.ChargeStep1( _gateway, paymentInfo, out errorMessage );
             }
 
             if ( string.IsNullOrWhiteSpace( errorMessage ) && !string.IsNullOrWhiteSpace( result ) )
@@ -2968,7 +2773,7 @@ namespace RockWeb.Blocks.Finance
         private CreditCardPaymentInfo GetCCInfo()
         {
             var cc = new CreditCardPaymentInfo( txtCreditCard.Text, txtCVV.Text, mypExpiration.SelectedDate ?? DateTime.MinValue );
-            cc.NameOnCard = _ccGatewayComponent != null && _ccGatewayComponent.SplitNameOnCard ? txtCardFirstName.Text : txtCardName.Text;
+            cc.NameOnCard = _gatewayComponent.SplitNameOnCard ? txtCardFirstName.Text : txtCardName.Text;
             cc.LastNameOnCard = txtCardLastName.Text;
 
             if ( cbBillingAddress.Checked )
@@ -3068,16 +2873,6 @@ namespace RockWeb.Blocks.Finance
             {
                 var transactionGuid = hfTransactionGuid.Value.AsGuid();
 
-                bool isACHTxn = hfPaymentTab.Value == "ACH";
-                var financialGateway = isACHTxn ? _achGateway : _ccGateway;
-                var gateway = isACHTxn ? _achGatewayComponent : _ccGatewayComponent;
-
-                if ( gateway == null )
-                {
-                    errorMessage = "There was a problem creating the payment gateway information";
-                    return false;
-                }
-
                 bool givingAsBusiness = GetAttributeValue( AttributeKey.EnableBusinessGiving ).AsBoolean() && !tglGiveAsOption.Checked;
 
                 // only create/update the person if they are giving as a person. If they are giving as a Business, the person shouldn't be created this way
@@ -3119,11 +2914,11 @@ namespace RockWeb.Blocks.Finance
                     if ( scheduledTransactionAlreadyExists != null )
                     {
                         // Hopefully shouldn't happen, but just in case the scheduledtransaction already went through, show the success screen.
-                        ShowSuccess( gateway, person, paymentInfo, schedule, scheduledTransactionAlreadyExists.FinancialPaymentDetail, rockContext );
+                        ShowSuccess( _gatewayComponent, person, paymentInfo, schedule, scheduledTransactionAlreadyExists.FinancialPaymentDetail, rockContext );
                         return true;
                     }
 
-                    var scheduledTransaction = gateway.AddScheduledPayment( financialGateway, schedule, paymentInfo, out errorMessage );
+                    var scheduledTransaction = _gatewayComponent.AddScheduledPayment( _gateway, schedule, paymentInfo, out errorMessage );
                     if ( scheduledTransaction == null )
                     {
                         return false;
@@ -3132,7 +2927,7 @@ namespace RockWeb.Blocks.Finance
                     // manually assign the Guid that we generated at the beginning of the transaction UI entry to help make duplicate scheduled transactions impossible
                     scheduledTransaction.Guid = transactionGuid;
 
-                    SaveScheduledTransaction( financialGateway, gateway, BusinessOrPerson, paymentInfo, schedule, scheduledTransaction, rockContext );
+                    SaveScheduledTransaction( _gateway, _gatewayComponent, BusinessOrPerson, paymentInfo, schedule, scheduledTransaction, rockContext );
                     paymentDetail = scheduledTransaction.FinancialPaymentDetail.Clone( false );
                 }
                 else
@@ -3141,11 +2936,11 @@ namespace RockWeb.Blocks.Finance
                     if ( transactionAlreadyExists != null )
                     {
                         // hopefully shouldn't happen, but just in case the transaction already went thru, show the success screen
-                        ShowSuccess( gateway, person, paymentInfo, null, transactionAlreadyExists.FinancialPaymentDetail, rockContext );
+                        ShowSuccess( _gatewayComponent, person, paymentInfo, null, transactionAlreadyExists.FinancialPaymentDetail, rockContext );
                         return true;
                     }
 
-                    var transaction = gateway.Charge( financialGateway, paymentInfo, out errorMessage );
+                    var transaction = _gatewayComponent.Charge( _gateway, paymentInfo, out errorMessage );
                     if ( transaction == null )
                     {
                         return false;
@@ -3154,11 +2949,11 @@ namespace RockWeb.Blocks.Finance
                     // manually assign the Guid that we generated at the beginning of the transaction UI entry to help make duplicate transactions impossible
                     transaction.Guid = transactionGuid;
 
-                    SaveTransaction( financialGateway, gateway, BusinessOrPerson, paymentInfo, transaction, rockContext );
+                    SaveTransaction( _gateway, _gatewayComponent, BusinessOrPerson, paymentInfo, transaction, rockContext );
                     paymentDetail = transaction.FinancialPaymentDetail.Clone( false );
                 }
 
-                ShowSuccess( gateway, person, paymentInfo, schedule, paymentDetail, rockContext );
+                ShowSuccess( _gatewayComponent, person, paymentInfo, schedule, paymentDetail, rockContext );
 
                 return true;
             }
@@ -3176,16 +2971,7 @@ namespace RockWeb.Blocks.Finance
 
             var transactionGuid = hfTransactionGuid.Value.AsGuid();
 
-            bool isACHTxn = hfPaymentTab.Value == "ACH";
-            var financialGateway = isACHTxn ? _achGateway : _ccGateway;
-            var gateway = isACHTxn ? _achGatewayComponent : _ccGatewayComponent;
-            var threeStepGateway = gateway as IThreeStepGatewayComponent;
-
-            if ( threeStepGateway == null )
-            {
-                errorMessage = "There was a problem creating the payment gateway information";
-                return false;
-            }
+            var threeStepGateway = _gatewayComponent as IThreeStepGatewayComponent;
 
             // only create/update the person if they are giving as a person. If they are giving as a Business, the person record already exists
             bool givingAsBusiness = GetAttributeValue( AttributeKey.EnableBusinessGiving ).AsBoolean() && !tglGiveAsOption.Checked;
@@ -3234,7 +3020,7 @@ namespace RockWeb.Blocks.Finance
             if ( transactionAlreadyExists != null )
             {
                 // hopefully shouldn't happen, but just in case the transaction already went thru, show the success screen
-                ShowSuccess( gateway, person, paymentInfo, null, transactionAlreadyExists.FinancialPaymentDetail, rockContext );
+                ShowSuccess( _gatewayComponent, person, paymentInfo, null, transactionAlreadyExists.FinancialPaymentDetail, rockContext );
                 errorMessage = string.Empty;
                 return true;
             }
@@ -3256,11 +3042,11 @@ namespace RockWeb.Blocks.Finance
                      */
 
                     // If this is a saved account, we can just use the regular DirectPost API of the ThreeStepGateway (see above note)
-                    scheduledTransaction = ( threeStepGateway as GatewayComponent ).AddScheduledPayment( financialGateway, schedule, paymentInfo, out errorMessage );
+                    scheduledTransaction = ( threeStepGateway as GatewayComponent ).AddScheduledPayment( _gateway, schedule, paymentInfo, out errorMessage );
                 }
                 else
                 {
-                    scheduledTransaction = threeStepGateway.AddScheduledPaymentStep3( financialGateway, resultQueryString, out errorMessage );
+                    scheduledTransaction = threeStepGateway.AddScheduledPaymentStep3( _gateway, resultQueryString, out errorMessage );
                 }
 
                 if ( scheduledTransaction == null )
@@ -3269,11 +3055,11 @@ namespace RockWeb.Blocks.Finance
                 }
 
                 paymentDetail = scheduledTransaction.FinancialPaymentDetail.Clone( false );
-                SaveScheduledTransaction( financialGateway, gateway, businessOrPerson, paymentInfo, schedule, scheduledTransaction, rockContext );
+                SaveScheduledTransaction( _gateway, _gatewayComponent, businessOrPerson, paymentInfo, schedule, scheduledTransaction, rockContext );
             }
             else
             {
-                var transaction = threeStepGateway.ChargeStep3( financialGateway, resultQueryString, out errorMessage );
+                var transaction = threeStepGateway.ChargeStep3( _gateway, resultQueryString, out errorMessage );
                 if ( transaction == null || !string.IsNullOrWhiteSpace( errorMessage ) )
                 {
                     return false;
@@ -3283,10 +3069,10 @@ namespace RockWeb.Blocks.Finance
                 transaction.Guid = transactionGuid;
 
                 paymentDetail = transaction.FinancialPaymentDetail.Clone( false );
-                SaveTransaction( financialGateway, gateway, businessOrPerson, paymentInfo, transaction, rockContext );
+                SaveTransaction( _gateway, _gatewayComponent, businessOrPerson, paymentInfo, transaction, rockContext );
             }
 
-            ShowSuccess( gateway, person, paymentInfo, schedule, paymentDetail, rockContext );
+            ShowSuccess( _gatewayComponent, person, paymentInfo, schedule, paymentDetail, rockContext );
 
             errorMessage = string.Empty;
             return true;
@@ -3649,7 +3435,7 @@ namespace RockWeb.Blocks.Finance
             pnlPayment.Visible = true;
             rblSavedAccount.Visible = page == 1 && rblSavedAccount.Items.Count > 0;
             bool usingSavedAccount = rblSavedAccount.Items.Count > 0 && ( rblSavedAccount.SelectedValueAsId() ?? 0 ) > 0;
-            divNewPayment.Visible = ( page == 1 && !_using3StepGateway ) || ( page == 2 && !usingSavedAccount );
+            divNewPayment.Visible = page == 2 && !usingSavedAccount;
             pnlPayment.Visible = rblSavedAccount.Visible || divNewPayment.Visible;
 
             // only show the History back button if the previous URL was able to be determined and they have the EnableInitialBackbutton enabled;
@@ -3801,27 +3587,20 @@ namespace RockWeb.Blocks.Finance
 
             ScriptManager.RegisterStartupScript( upPayment, this.GetType(), "giving-profile", script, true );
 
-            bool usingTithelyGateway = _ccGatewayComponent is Gateway || _achGatewayComponent is Gateway;
-            if ( usingTithelyGateway )
-            {
-                ScriptManager.RegisterStartupScript( upPayment, GetType(), "three-step-script", com.tithely.TithelyFinancialGateway.Scripts.ThreeStep, true );
-            }
+            ScriptManager.RegisterStartupScript(upPayment, GetType(), "three-step-script", com.tithely.TithelyFinancialGateway.Scripts.ThreeStep, true);
 
-            if ( _using3StepGateway )
-            {
-                string submitScript = string.Format( @"
-    $('#{0}').val('');
-    $('#{1}_monthDropDownList').val('');
-    $('#{1}_yearDropDownList_').val('');
-    $('#{2}').val('');
+            string submitScript = string.Format( @"
+$('#{0}').val('');
+$('#{1}_monthDropDownList').val('');
+$('#{1}_yearDropDownList_').val('');
+$('#{2}').val('');
 ",
-                txtCreditCard.ClientID,  // {0}
-                mypExpiration.ClientID,  // {1}
-                txtCVV.ClientID          // {2}
-                );
+            txtCreditCard.ClientID,  // {0}
+            mypExpiration.ClientID,  // {1}
+            txtCVV.ClientID          // {2}
+            );
 
-                ScriptManager.RegisterOnSubmitStatement( Page, Page.GetType(), "clearCCFields", submitScript );
-            }
+            ScriptManager.RegisterOnSubmitStatement( Page, Page.GetType(), "clearCCFields", submitScript );
         }
 
         /// <summary>
