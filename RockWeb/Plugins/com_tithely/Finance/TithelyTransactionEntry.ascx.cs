@@ -3571,6 +3571,72 @@ namespace RockWeb.Blocks.Finance
             }}
         }});
     }});
+// Posts the iframe (step 2)
+    $('#aStep2Submit').on('click', function(e) {{
+        e.preventDefault();
+        if (typeof (Page_ClientValidate) == 'function') {{
+            if (Page_IsValid && Page_ClientValidate('{8}') ) {{
+                $(this).prop('disabled', true);
+                $('#updateProgress').show();
+                var src = $('#{9}').val();
+                var $form = $('#iframeStep2').contents().find('#Step2Form');
+
+                if ( $('#{10}').is(':visible') && $('#{10}').prop('checked') ) {{
+                    $form.find('.js-billing-address1').val( $('#{11}_tbStreet1').val() );
+                    $form.find('.js-billing-city').val( $('#{11}_tbCity').val() );
+                    if ( $('#{11}_ddlState').length ) {{
+                        $form.find('.js-billing-state').val( $('#{11}_ddlState').val() );
+                    }} else {{
+                        $form.find('.js-billing-state').val( $('#{11}_tbState').val() );
+                    }}
+                    $form.find('.js-billing-postal').val( $('#{11}_tbPostalCode').val() );
+                    $form.find('.js-billing-country').val( $('#{11}_ddlCountry').val() );
+                }}
+
+                if ( $('#{1}').val() == 'CreditCard' ) {{
+                    $form.find('.js-cc-first-name').val( $('#{12}').val() );
+                    $form.find('.js-cc-last-name').val( $('#{13}').val() );
+                    $form.find('.js-cc-full-name').val( $('#{14}').val() );
+                    $form.find('.js-cc-number').val( $('#{15}').val() );
+                    var mm = $('#{16}_monthDropDownList').val();
+                    var yy = $('#{16}_yearDropDownList_').val();
+                    mm = mm.length == 1 ? '0' + mm : mm;
+                    yy = yy.length == 4 ? yy.substring(2,4) : yy;
+                    $form.find('.js-cc-expiration').val( mm + yy );
+                    $form.find('.js-cc-cvv').val( $('#{17}').val() );
+                }} else {{
+                    $form.find('.js-account-name').val( $('#{18}').val() );
+                    $form.find('.js-account-number').val( $('#{19}').val() );
+                    $form.find('.js-routing-number').val( $('#{20}').val() );
+                    $form.find('.js-account-type').val( $('#{21}').find('input:checked').val() );
+                    $form.find('.js-entity-type').val( 'personal' );
+                }}
+
+                $form.attr('action', src );
+                $form.submit();
+            }}
+        }}
+    }});
+
+    // Evaluates the current url whenever the iframe is loaded and if it includes a qrystring parameter
+    // The qry parameter value is saved to a hidden field and a post back is performed
+    $('#iframeStep2').on('load', function(e) {{
+        var location = this.contentWindow.location;
+        var qryString = this.contentWindow.location.search;
+        if ( qryString && qryString != '' && qryString.startsWith('?token-id') ) {{
+            $('#{22}').val(qryString);
+            window.location = ""javascript:{23}"";
+        }} else {{
+            if ( $('#{24}').val() == 'true' ) {{
+                $('#updateProgress').show();
+                var src = $('#{9}').val();
+                var $form = $('#iframeStep2').contents().find('#Step2Form');
+                $form.attr('action', src );
+                $form.submit();
+                $('#updateProgress').hide();
+            }}
+        }}
+    }});
 ";
             var currencyCodeInfo = new RockCurrencyCodeInfo();
             string script = string.Format(
@@ -3582,7 +3648,24 @@ namespace RockWeb.Blocks.Finance
                 rblSavedAccount.ClientID,       // {4}
                 rblSavedAccount.UniqueID,       // {5}
                 divNewPayment.ClientID,         // {6}
-                currencyCodeInfo.DecimalPlaces // {7}
+                currencyCodeInfo.DecimalPlaces, // {7}
+                this.BlockValidationGroup, // {8}
+                hfStep2Url.ClientID, // {9}
+                cbBillingAddress.ClientID, // {10}
+                acBillingAddress.ClientID, // {11}
+                txtCardFirstName.ClientID, // {12}
+                txtCardLastName.ClientID, // {13}
+                txtCardName.ClientID, // {14}
+                txtCreditCard.ClientID, // {15}
+                mypExpiration.ClientID, // {16}
+                txtCVV.ClientID, // {17}
+                txtAccountName.ClientID, // {18}
+                txtAccountNumber.ClientID, // {19}
+                txtRoutingNumber.ClientID, // {20}
+                rblAccountType.ClientID, // {21}
+                hfStep2ReturnQueryString.ClientID, // {22}
+                this.Page.ClientScript.GetPostBackEventReference(lbStep2Return, ""), // {23}
+                hfStep2AutoSubmit.ClientID // {24}
             );
 
             ScriptManager.RegisterStartupScript( upPayment, this.GetType(), "giving-profile", script, true );
